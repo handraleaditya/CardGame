@@ -10,7 +10,7 @@ from art import * # external library used to print ASCII art
 
 
 # TODO : Add various TODO s for future work features
-# TODO : Show discard piles and draw piles spereately
+# TODO : Show discard piles and draw piles count spereately
 # Used for verbose debug mode logging
 DEBUG = True
 
@@ -177,6 +177,7 @@ class Game:
     # tied_cards : list of cards that stores all the previously tied cards, recursively passed to handle_tie
     def handle_tie(self, tied_cards=None):
         print("Resolving the tie...")
+        # log("A tie has occured, check game state")
 
         # if handle tie called non recursively (for the first time), create a tied_cards list first 
         if tied_cards is None:
@@ -194,13 +195,7 @@ class Game:
         last_card_p1 = tied_cards[-2]
         last_card_p2 = tied_cards[-1]
 
-        # update the total_cards
-        # self.p1.total_cards -= 1
-        # self.p2.total_cards -= 1
-
-
         print(f"{self.p1.name} [Player 1] draws a {last_card_p1}! \n{self.p2.name} [Player 2] draws a {last_card_p2}!")
-
 
         # check the winning conditions again to see who wins the tie
         # if player 1 wins 
@@ -288,9 +283,11 @@ def main():
     print("# Welcome to the SAP Card Game! #")
     print("#################################\n")
 
+    # get player names
     player1_name = input("Please enter player 1 Name : ")
     player2_name = input("Please enter player 2 Name : ")
 
+    # initialize the game object
     game_instance = Game(player1_name.upper(), player2_name.upper())
     game_instance.initialize_game()
     game_instance.play_game()
