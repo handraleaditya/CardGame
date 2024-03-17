@@ -6,6 +6,8 @@
 from math import floor # used for improved Fisher-Yates algorithm
 import random # used to shuffling verification
 import unittest # used for implementing tests
+from art import * # external library used to print ASCII art
+
 
 # TODO : Add various TODO s for future work features
 # TODO : Show discard piles and draw piles spereately
@@ -137,7 +139,7 @@ class Game:
             return
 
         # TODO add fancy console log prints
-        print(f"{self.p1.name} (Player 1) draws a {p1_card}! [Score : {self.p1.total_cards}]\n{self.p2.name} (Player 2) draws a {p2_card}! [Score : {self.p2.total_cards}]")
+        print(f"{self.p1.name} [Player 1] draws a {p1_card}! [Score : {self.p1.total_cards}]\n{self.p2.name} [Player 2] draws a {p2_card}! [Score : {self.p2.total_cards}]")
 
         
         # check if player 1 won the round
@@ -182,7 +184,6 @@ class Game:
 
         # draw 2 new cards for each player and add them to tied_cards, as tied_cards list will be awarded to player who wins after consecutive ties
         tied_cards.extend([self.p1.draw(), self.p2.draw()])
-        print("tied cards contains ", *tied_cards)
         # Check if No e is present in tied_cards, meaning a player has exhausted their cards
         # and we should end the game
         if None in tied_cards:
@@ -198,13 +199,13 @@ class Game:
         # self.p2.total_cards -= 1
 
 
-        print(f"{self.p1.name} (Player 1) draws a {last_card_p1}! \n{self.p2.name} (Player 2) draws a {last_card_p2}!")
+        print(f"{self.p1.name} [Player 1] draws a {last_card_p1}! \n{self.p2.name} [Player 2] draws a {last_card_p2}!")
 
 
         # check the winning conditions again to see who wins the tie
         # if player 1 wins 
         if last_card_p1.value > last_card_p2.value:
-            print(f"{self.p1.name} (Player 1) wins the tiebreaker, and recieves the last {len(tied_cards)} cards!\n")
+            print(f"{self.p1.name} [Player 1] wins the tiebreaker, and recieves the last {len(tied_cards)} cards!\n")
             
             # update the total_cards
             self.p1.total_cards += int(len(tied_cards)/2)
@@ -213,7 +214,7 @@ class Game:
             self.p1.discard_pile.extend(tied_cards) # add the tied cars list to player 1 discard pile
         # if player 2 wins
         elif last_card_p1.value < last_card_p2.value:
-            print(f"{self.p2.name} (Player 2) wins the tiebreaker, and recieves the last {len(tied_cards)} cards!\n")
+            print(f"{self.p2.name} [Player 2] wins the tiebreaker, and recieves the last {len(tied_cards)} cards!\n")
            
             # update the total_cards 
             self.p2.total_cards += int(len(tied_cards)/2)
@@ -247,11 +248,11 @@ class Game:
             # if one of the players has no more cards left to draw, break gameplay loop
             # check if player 1 has exhausted their cards
             if not self.p1.draw_pile and not self.p1.discard_pile:
-                print("Player 1 exhausted their cards and is unable to draw any more cards, Game Over!")
+                print(f"{self.p1.name} [Player 1] exhausted their cards and is unable to draw any more cards, Game Over!")
                 break # end the gameplay loop
             # check if player 2 has exhausted their cards
             if not self.p2.draw_pile and not self.p2.discard_pile:
-                print("Player 2 exhausted their cards and is unable to draw any more cards, Game Over!")
+                print(f"{self.p2.name} [Player 2] exhausted their cards and is unable to draw any more cards, Game Over!")
                 break # end the gameplay loop
         
         # print the final scores
@@ -260,21 +261,33 @@ class Game:
 
         # After the gameplay loop is finished,
         # check for who won the whole game
-            
+        
+
         # if player 1's discard pile is greater, they win
         if len(self.p1.discard_pile) > len(self.p2.discard_pile):
-            print(f"{self.p1.name}[Player 1] {self.p1.name} wins the game!")
+            print(f"[Player 1] {self.p1.name} wins the game!")
+
         # if player 2's discard pile is greater, they win
         elif len(self.p1.discard_pile) < len(self.p2.discard_pile):
-            print(f"{self.p2.name}[Player 2] {self.p2.name} wins the game!")
+            print(f"[Player 2] {self.p2.name} wins the game!\n")
+
         # if both discard piles are the same length, its a tie
         else:
-            print("It's a tie!")
+            print("It's a tie!\n")
+        
+        tprint(f"\n\n GGWP!", font="crawford") # Used for ASCII art
+
 
     
 # main function responsible for getting the player names, setting up and running the game
 def main():
-    print("\nWelcome to the Card Game!")
+    tprint("\n\n SAP Card Game", font="crawford") # Used for ASCII art
+    print("Copyright © 2024 Aditya Handrale\n ")
+
+    print("\n#################################")
+    print("# Welcome to the SAP Card Game! #")
+    print("#################################\n")
+
     player1_name = input("Please enter player 1 Name : ")
     player2_name = input("Please enter player 2 Name : ")
 
